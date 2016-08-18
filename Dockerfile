@@ -38,3 +38,4 @@ EXPOSE 11000 11001
 
 ENV PATH $PATH:/opt/oozie-4.2.0/bin
 RUN chown -R hadoop /opt/oozie-4.2.0
+USER hadoop
