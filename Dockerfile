@@ -24,8 +24,8 @@ RUN cd /root/oozie-release-4.2.0 \
 	&& rm -fR /root/apache-maven-3.3.9 \
 	&& rm -fR /root/.m2
 
-RUN mkdir -p /var/log/oozie && chown -R hadoop /var/log/oozie
-RUN mkdir -p /var/lib/oozie/data && chown -R hadoop /var/lib/oozie
+RUN mkdir -p /var/log/oozie && chown -R hdfs /var/log/oozie
+RUN mkdir -p /var/lib/oozie/data && chown -R hdfs /var/lib/oozie
 RUN ln -s /var/log/oozie /opt/oozie-4.2.0/log
 RUN ln -s /var/lib/oozie/data /opt/oozie-4.2.0/data
 
@@ -36,6 +36,6 @@ RUN /opt/oozie-4.2.0/bin/oozie-setup.sh prepare-war
 # Oozie web ports ( API; admin ui )
 EXPOSE 11000 11001
 
+RUN chown -R hdfs /opt/oozie-4.2.0
+USER hdfs
 ENV PATH $PATH:/opt/oozie-4.2.0/bin
-RUN chown -R hadoop /opt/oozie-4.2.0
-USER hadoop
