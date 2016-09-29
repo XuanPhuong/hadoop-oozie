@@ -33,9 +33,15 @@ RUN mkdir /opt/oozie-4.2.0/libext
 ADD http://archive.cloudera.com/gplextras/misc/ext-2.2.zip /opt/oozie-4.2.0/libext/
 RUN /opt/oozie-4.2.0/bin/oozie-setup.sh prepare-war
 
+ADD https://github.com/jcassee/parameterized-entrypoint/releases/download/0.9.0/entrypoint_linux_amd64 /usr/local/bin/entrypoint
+RUN chmod +rx /usr/local/bin/entrypoint
+COPY core-site.xml.tmpl /templates/opt/oozie-4.2.0/conf/hadoop-conf/core-site.xml
+
 # Oozie web ports ( API; admin ui )
 EXPOSE 11000 11001
 
 RUN chown -R hdfs /opt/oozie-4.2.0
 USER hdfs
 ENV PATH $PATH:/opt/oozie-4.2.0/bin
+
+ENTRYPOINT ["entrypoint", "--"]
